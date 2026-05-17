@@ -1,0 +1,42 @@
+.upload-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-wrap: wrap;
+}
+
+.upload-label {
+  cursor: pointer;
+  padding: 8px 16px;
+  background: #1a1a2e;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.upload-label:hover:not(.disabled) {
+  background: #2d2d4e;
+}
+
+.upload-label.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.upload-status {
+  font-size: 0.85rem;
+}
+
+.upload-status.success {
+  color: #16a34a;
+}
+
+.upload-status.error {
+  color: #dc2626;
+}
