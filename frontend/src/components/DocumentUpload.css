@@ -1,42 +1,141 @@
-.upload-bar {
+.upload-zone {
+  position: relative;
+  padding: 10px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.upload-zone.drag-over {
+  background: #f5f3ff;
+  border-color: #a78bfa;
+}
+
+.upload-inner {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
   flex-wrap: wrap;
 }
 
-.upload-label {
-  cursor: pointer;
+.upload-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 16px;
-  background: #1a1a2e;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   color: #fff;
-  border-radius: 6px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  transition: background 0.15s;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
   white-space: nowrap;
+  user-select: none;
 }
 
-.upload-label:hover:not(.disabled) {
-  background: #2d2d4e;
+.upload-trigger:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
 }
 
-.upload-label.disabled {
-  opacity: 0.55;
+.upload-trigger.disabled {
+  opacity: 0.65;
   cursor: not-allowed;
+  transform: none;
 }
 
+.upload-icon {
+  display: flex;
+  align-items: center;
+}
+
+.upload-label-text {
+  font-size: 0.86rem;
+}
+
+.upload-types {
+  display: flex;
+  gap: 4px;
+  margin-left: 2px;
+}
+
+.type-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+/* ── Status ── */
 .upload-status {
-  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  padding: 6px 10px;
+  flex-wrap: wrap;
 }
 
 .upload-status.success {
-  color: #16a34a;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.upload-status.loading {
+  color: #6d28d9;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
 }
 
 .upload-status.error {
   color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.status-text {
+  font-size: 0.82rem;
+}
+
+.file-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+/* ── Drag overlay ── */
+.drag-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #6d28d9;
+  background: rgba(245, 243, 255, 0.85);
+  border: 2px dashed #a78bfa;
+  border-radius: 4px;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Spinner ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 0.85s linear infinite;
 }
