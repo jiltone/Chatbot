@@ -1,11 +1,8 @@
-from pathlib import Path
-from dotenv import load_dotenv
-import os
 from groq import Groq
 from .config import settings
 from .retriever import retrieve
 
-_ENV_FILE = Path(__file__).resolve().parent.parent / ".env"
+_client = Groq(api_key=settings.groq_api_key)
 
 SYSTEM_PROMPT = """You are a helpful assistant that answers questions using only the provided context from the user's documents.
 
@@ -25,19 +22,16 @@ def build_prompt(question: str, chunks: list[dict]) -> str:
 
 
 def answer_question(question: str, history: list[dict]) -> tuple[str, list[dict]]:
-    # Re-read .env on every call so key changes take effect without restarting
-    load_dotenv(_ENV_FILE, override=True)
-    api_key = os.getenv("GROQ_API_KEY") or settings.groq_api_key
-    client = Groq(api_key=api_key)
-
     chunks = retrieve(question)
     user_prompt = build_prompt(question, chunks)
 
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-    messages.extend(history[-6:])
+    # Strip any extra fields (like 'sources') — Groq only accepts role + content
+    for m in history[-6:]:
+        messages.append({"role": m["role"], "content": m["content"]})
     messages.append({"role": "user", "content": user_prompt})
 
-    response = client.chat.completions.create(
+    response = _client.chat.completions.create(
         model=settings.llm_model,
         messages=messages,
         max_tokens=1024,
